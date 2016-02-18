@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.6+">
+	<information>
+		<title>Hola Mundo</title>
+		<vendor>Pedro Baez</vendor>
+		<offline-allowed/>
+	</information>
+	<resources>
+        <java version="1.8.0_40+" href="https://www.java.com/"/>
+        <jar href="https://www.dropbox.com/s/dp1djets43ipnqh/holamundo.jar?dl=0" main="true" />
+    </resources>
+	<application-desc name="Hola Mundo" main-class="com.example.javawebstart.holamundo.HolaMundoMain" />
+	<update check="background"/>
+</jnlp>
