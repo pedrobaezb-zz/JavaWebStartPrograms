@@ -21,7 +21,6 @@ public class HolaMundoMain extends Application {
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			int contador=1;
 
-			@Override
 			public void handle(ActionEvent event) {
 				btn.setText("Prueba " + contador);
 				contador++;
