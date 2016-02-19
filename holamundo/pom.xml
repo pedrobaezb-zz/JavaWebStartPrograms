@@ -27,7 +27,6 @@
 	</dependencies>	
  
 	<build>
-		<finalName>holamundo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -42,9 +41,10 @@
 					</execution>
 				</executions>
 				<configuration>
+					<finalName>holamundo</finalName>
 					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
 						<manifest>
-							<addClasspath>true</addClasspath>
 							<mainClass>com.example.javawebstart.holamundo.HolaMundoMain</mainClass>
 						</manifest>
 					</archive>
@@ -52,6 +52,7 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 					<appendAssemblyId>false</appendAssemblyId>
+					<attach>false</attach>
 				</configuration>
 			</plugin>			
 		</plugins>
