@@ -7,8 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
- 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class HolaMundoMain extends Application {
+	private static final Logger log = LogManager.getLogger("HelloWorld");
 
 	public static void main(String[] args) {
 		launch(args);
@@ -23,6 +26,7 @@ public class HolaMundoMain extends Application {
 
 			public void handle(ActionEvent event) {
 				btn.setText("Prueba " + contador);
+				log.debug("Prueba {}", contador);
 				contador++;
 			}
 		});
