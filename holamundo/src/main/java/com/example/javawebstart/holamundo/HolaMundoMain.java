@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 public class HolaMundoMain extends Application {
 	private static final Logger log = LogManager.getLogger("HelloWorld");
+	int contador=1;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -21,15 +22,13 @@ public class HolaMundoMain extends Application {
 	public void start(Stage primaryStage) {
 		final Button btn = new Button();
 		btn.setText("Prueba");
-		btn.setOnAction(new EventHandler<ActionEvent>() {
-			int contador=1;
-
-			public void handle(ActionEvent event) {
-				btn.setText("Prueba " + contador);
-				log.debug("Prueba {}", contador);
-				contador++;
-			}
-		});
+		btn.setOnAction(
+				(ActionEvent event) -> {
+					btn.setText("Prueba " + contador);
+					log.debug("Prueba {}", contador);
+					contador++;
+				}
+		);
 
 		StackPane root = new StackPane();
 		root.getChildren().add(btn);
