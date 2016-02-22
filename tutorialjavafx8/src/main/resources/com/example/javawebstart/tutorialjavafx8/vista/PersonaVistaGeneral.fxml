@@ -63,7 +63,7 @@
                     <buttons>
                       <Button mnemonicParsing="false" text="Nuevo..." />
                         <Button mnemonicParsing="false" text="Editar...." />
-                        <Button mnemonicParsing="false" text="Borrar" />
+                        <Button mnemonicParsing="false" onAction="#manejadorBorradoPersona" text="Borrar" />
                     </buttons>
                   </ButtonBar>
                </children></AnchorPane>

@@ -3,9 +3,12 @@ package com.example.javawebstart.tutorialjavafx8;
 
 import com.example.javawebstart.tutorialjavafx8.modelo.Persona;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by x163209 on 22/02/2016.
@@ -37,6 +40,42 @@ public class PersonaGeneralControlador {
     private void initialize() {
         columnaNombre.setCellValueFactory(datoColumna ->  datoColumna.getValue().nombreProperty());
         columnaApellido.setCellValueFactory(datoColumna -> datoColumna.getValue().apellidoProperty());
+
+        //Borramos los detalles de la persona
+        mostrarDetallePersona(null);
+
+        //Añadimos el oyente de cambios en la lista
+        tablaPersona.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> mostrarDetallePersona(newValue));
+
+    }
+
+    private void mostrarDetallePersona(Persona persona) {
+        if(persona!=null) {
+            nombreLabel.setText(persona.getNombre());
+            apellidoLabel.setText(persona.getApellido());
+            calleLabel.setText(persona.getCalle());
+            ciudadLabel.setText(persona.getCiudad());
+            codigoPostalLabel.setText(Integer.toString(persona.getCodigoPostal()));
+            nacimientoLabel.setText(DateTimeFormatter.ISO_DATE.format(persona.getNacimiento()));
+        } else {
+            nombreLabel.setText("");
+            apellidoLabel.setText("");
+            calleLabel.setText("");
+            ciudadLabel.setText("");
+            codigoPostalLabel.setText("");
+            nacimientoLabel.setText("");
+        }
+    }
+
+    @FXML
+    private void manejadorBorradoPersona() {
+        int selectedIndex = tablaPersona.getSelectionModel().getSelectedIndex();
+        if(selectedIndex==-1) {
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setContentText("Debe seleccionar una persona para borrar");
+            alerta.showAndWait();
+        } else
+            tablaPersona.getItems().remove(selectedIndex);
     }
 
     public TutorialJavaFX8Main getMain() {
