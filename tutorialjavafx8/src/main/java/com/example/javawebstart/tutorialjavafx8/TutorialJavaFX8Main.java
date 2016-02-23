@@ -82,4 +82,7 @@ public class TutorialJavaFX8Main extends Application {
 		return personas;
 	}
 
+	public Stage getVentanaPrincipal() {
+		return ventanaPrincipal;
+	}
 }

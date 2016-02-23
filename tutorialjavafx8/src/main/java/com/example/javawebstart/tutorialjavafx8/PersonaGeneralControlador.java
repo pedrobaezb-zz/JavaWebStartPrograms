@@ -3,17 +3,26 @@ package com.example.javawebstart.tutorialjavafx8;
 
 import com.example.javawebstart.tutorialjavafx8.modelo.Persona;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
  * Created by x163209 on 22/02/2016.
  */
 public class PersonaGeneralControlador {
+    private static final Logger log = LogManager.getLogger();
     @FXML
     private TableView<Persona> tablaPersona;
     @FXML
@@ -56,7 +65,7 @@ public class PersonaGeneralControlador {
             calleLabel.setText(persona.getCalle());
             ciudadLabel.setText(persona.getCiudad());
             codigoPostalLabel.setText(Integer.toString(persona.getCodigoPostal()));
-            nacimientoLabel.setText(DateTimeFormatter.ISO_DATE.format(persona.getNacimiento()));
+            nacimientoLabel.setText(DateTimeFormatter.ISO_LOCAL_DATE.format(persona.getNacimiento()));
         } else {
             nombreLabel.setText("");
             apellidoLabel.setText("");
@@ -89,6 +98,34 @@ public class PersonaGeneralControlador {
         tablaPersona.setItems(main.getPersonas());
     }
 
+    @FXML
+    private void manejadorNuevaPersona() {
+        try {
+            Persona persona = new Persona();
+
+            FXMLLoader cargadorFxml = new FXMLLoader();
+            cargadorFxml.setLocation(getClass().getResource("/com/example/javawebstart/tutorialjavafx8/vista/EditarPersonaDialogo.fxml"));
+            AnchorPane editarPersonaDialogo = cargadorFxml.load();
+
+            Stage dialogo = new Stage();
+            dialogo.setTitle("Nueva persona");
+            dialogo.initModality(Modality.WINDOW_MODAL);
+            dialogo.initOwner(main.getVentanaPrincipal());
+
+            Scene ventanaDialogo = new Scene(editarPersonaDialogo);
+            dialogo.setScene(ventanaDialogo);
+
+            EditarPersonaContorlador controlador = cargadorFxml.getController();
+            controlador.setPersona(persona);
+            controlador.setVentanaDialogo(dialogo);
+
+            dialogo.showAndWait();
+
+
+        } catch (Exception e) {
+            log.error("No se puede crear el dialogo de nueva persona", e);
+        }
+    }
 
     public TableView<Persona> getTablaPersona() {
         return tablaPersona;

@@ -16,11 +16,18 @@ public class Persona {
     private ObjectProperty<LocalDate> nacimiento;
 
     public Persona() {
+        this.nombre = new SimpleStringProperty();
+        this.apellido = new SimpleStringProperty();
+        this.calle = new SimpleStringProperty();
+        this.codigoPostal = new SimpleIntegerProperty();
+        this.ciudad = new SimpleStringProperty();
+        this.nacimiento = new SimpleObjectProperty<LocalDate>();
     }
 
     public Persona(String nombre, String apellido) {
-        this.nombre = new SimpleStringProperty(nombre);
-        this.apellido = new SimpleStringProperty(apellido);
+        this();
+        this.nombre.set(nombre);
+        this.apellido.set(apellido);
 
         // Some initial dummy data, just for convenient testing.
         this.calle = new SimpleStringProperty("Calle prueba");
