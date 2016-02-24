@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,6 +77,36 @@ public class TutorialJavaFX8Main extends Application {
 		} catch (Exception e) {
 			log.error("No se ha podido cargar el layout inicial", e);
 		}
+	}
+
+	public boolean mostrarEditarPersonaDialogo(Persona persona) {
+		boolean correcto=false;
+		try {
+			//Cargamos el dialogo de editar persona
+			FXMLLoader cargadorFxml = new FXMLLoader();
+			cargadorFxml.setLocation(getClass().getResource("/com/example/javawebstart/tutorialjavafx8/vista/EditarPersonaDialogo.fxml"));
+			AnchorPane editarPersonaDialogo = cargadorFxml.load();
+
+
+			//Creamos la escena para el dialogo
+			Stage dialogo = new Stage();
+			dialogo.setTitle("Nueva persona");
+			dialogo.initModality(Modality.WINDOW_MODAL);
+			dialogo.initOwner(ventanaPrincipal);
+			dialogo.setScene(new Scene(editarPersonaDialogo));
+
+			//Cargamos los datos necesarios en el dialogo
+			EditarPersonaControlador controlador = cargadorFxml.getController();
+			controlador.setVentanaDialogo(dialogo);
+			controlador.setPersona(persona);
+
+			dialogo.showAndWait();
+
+			correcto=controlador.isOkPulsado();
+		} catch (Exception e) {
+			log.error("Error general", e);
+		}
+		return correcto;
 	}
 
 	public ObservableList<Persona> getPersonas() {

@@ -102,26 +102,25 @@ public class PersonaGeneralControlador {
     private void manejadorNuevaPersona() {
         try {
             Persona persona = new Persona();
+            if(main.mostrarEditarPersonaDialogo(persona))
+                main.getPersonas().add(persona);
+        } catch (Exception e) {
+            log.error("No se puede crear el dialogo de nueva persona", e);
+        }
+    }
 
-            FXMLLoader cargadorFxml = new FXMLLoader();
-            cargadorFxml.setLocation(getClass().getResource("/com/example/javawebstart/tutorialjavafx8/vista/EditarPersonaDialogo.fxml"));
-            AnchorPane editarPersonaDialogo = cargadorFxml.load();
-
-            Stage dialogo = new Stage();
-            dialogo.setTitle("Nueva persona");
-            dialogo.initModality(Modality.WINDOW_MODAL);
-            dialogo.initOwner(main.getVentanaPrincipal());
-
-            Scene ventanaDialogo = new Scene(editarPersonaDialogo);
-            dialogo.setScene(ventanaDialogo);
-
-            EditarPersonaContorlador controlador = cargadorFxml.getController();
-            controlador.setPersona(persona);
-            controlador.setVentanaDialogo(dialogo);
-
-            dialogo.showAndWait();
-
-
+    @FXML
+    private void manejadorEditarPersona() {
+        try {
+            Persona persona = tablaPersona.getSelectionModel().getSelectedItem();
+            if(persona!=null) {
+                if (main.mostrarEditarPersonaDialogo(persona))
+                    mostrarDetallePersona(persona);
+            } else {
+                Alert alerta = new Alert(Alert.AlertType.WARNING);
+                alerta.setContentText("Debe seleccionar una persona para editar");
+                alerta.showAndWait();
+            }
         } catch (Exception e) {
             log.error("No se puede crear el dialogo de nueva persona", e);
         }

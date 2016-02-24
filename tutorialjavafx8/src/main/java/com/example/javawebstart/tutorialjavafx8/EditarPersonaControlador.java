@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-public class EditarPersonaContorlador {
+public class EditarPersonaControlador {
     private static final Logger log = LogManager.getLogger();
     @FXML
     private TextField nombre;
@@ -35,7 +35,7 @@ public class EditarPersonaContorlador {
 
     @FXML
     private void initialize() {
-
+        log.info("Iniciamos el dialogo");
     }
 
     public void setVentanaDialogo(Stage ventanaDialogo) {

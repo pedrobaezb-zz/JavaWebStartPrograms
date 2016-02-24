@@ -8,24 +8,17 @@ import java.time.LocalDate;
  * Created by x163209 on 22/02/2016.
  */
 public class Persona {
-    private StringProperty nombre;
-    private StringProperty apellido;
-    private StringProperty calle;
-    private IntegerProperty codigoPostal;
-    private StringProperty ciudad;
-    private ObjectProperty<LocalDate> nacimiento;
+    private StringProperty nombre = new SimpleStringProperty();
+    private StringProperty apellido = new SimpleStringProperty();
+    private StringProperty calle = new SimpleStringProperty();
+    private IntegerProperty codigoPostal = new SimpleIntegerProperty();
+    private StringProperty ciudad = new SimpleStringProperty();
+    private ObjectProperty<LocalDate> nacimiento = new SimpleObjectProperty<LocalDate>();
 
     public Persona() {
-        this.nombre = new SimpleStringProperty();
-        this.apellido = new SimpleStringProperty();
-        this.calle = new SimpleStringProperty();
-        this.codigoPostal = new SimpleIntegerProperty();
-        this.ciudad = new SimpleStringProperty();
-        this.nacimiento = new SimpleObjectProperty<LocalDate>();
     }
 
     public Persona(String nombre, String apellido) {
-        this();
         this.nombre.set(nombre);
         this.apellido.set(apellido);
 
