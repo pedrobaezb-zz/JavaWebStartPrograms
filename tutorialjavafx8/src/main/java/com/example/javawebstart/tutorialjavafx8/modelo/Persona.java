@@ -1,7 +1,10 @@
 package com.example.javawebstart.tutorialjavafx8.modelo;
 
+import com.example.javawebstart.tutorialjavafx8.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 /**
@@ -101,6 +104,7 @@ public class Persona {
         this.ciudad.set(ciudad);
     }
 
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     public LocalDate getNacimiento() {
         return nacimiento.get();
     }

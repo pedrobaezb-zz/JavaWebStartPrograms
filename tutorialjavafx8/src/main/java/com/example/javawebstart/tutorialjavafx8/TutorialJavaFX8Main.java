@@ -1,11 +1,13 @@
 package com.example.javawebstart.tutorialjavafx8;
 
 import com.example.javawebstart.tutorialjavafx8.modelo.Persona;
+import com.example.javawebstart.tutorialjavafx8.modelo.PersonaListWrapper;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -13,6 +15,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.util.prefs.Preferences;
 
 public class TutorialJavaFX8Main extends Application {
 	private static final Logger log = LogManager.getLogger();
@@ -57,7 +65,16 @@ public class TutorialJavaFX8Main extends Application {
 			//Enseña ña escenta con el layout raiz
 			Scene ventana = new Scene(layoutRaiz);
 			ventanaPrincipal.setScene(ventana);
+
+			ControladorInicial controladorInicial = cargadorFxml.getController();
+			controladorInicial.setTutorialJavaFX8Main(this);
+
 			ventanaPrincipal.show();
+
+			File ultimaLibreta = getFicheroLibreta();
+			if(ultimaLibreta!=null)
+				cargarLibretaDeFichero(ultimaLibreta);
+
 		} catch (Exception e) {
 			log.error("No se ha podido cargar el layout inicial", e);
 		}
@@ -117,5 +134,66 @@ public class TutorialJavaFX8Main extends Application {
 
 	public Stage getVentanaPrincipal() {
 		return ventanaPrincipal;
+	}
+
+	public File getFicheroLibreta() {
+		Preferences preferences = Preferences.userNodeForPackage(getClass());
+		String fichero = preferences.get("ficheroLibreta", null);
+		if(fichero!=null)
+			return new File(fichero);
+		else
+			return null;
+	}
+
+	public void setFicheroLibreta(File fichero) {
+		Preferences preferences = Preferences.userNodeForPackage(getClass());
+
+		if(fichero!=null) {
+			preferences.put("ficheroLibreta", fichero.getPath());
+			ventanaPrincipal.setTitle("Tutorial Java FX 8 - " + fichero.getName());
+		} else {
+			preferences.remove("ficheroLibreta");
+			ventanaPrincipal.setTitle("Tutorial Java FX 8");
+		}
+	}
+
+	public void cargarLibretaDeFichero(File libreta) {
+		try {
+			JAXBContext contextoXml = JAXBContext.newInstance(PersonaListWrapper.class);
+			Unmarshaller lector = contextoXml.createUnmarshaller();
+
+			PersonaListWrapper personasFichero = (PersonaListWrapper)lector.unmarshal(libreta);
+
+			personas.clear();
+			personas.addAll(personasFichero.getPersonas());
+
+			setFicheroLibreta(libreta);
+		} catch (Exception e) {
+			log.error("Error general", e);
+			Alert alerta = new Alert(Alert.AlertType.ERROR);
+			alerta.setContentText("No se ha podido leer la libreta:\n" + e.getLocalizedMessage() );
+			alerta.showAndWait();
+		}
+	}
+
+	public void guardarLibretaDeFichero(File libreta) {
+		try {
+			JAXBContext contextoXml = JAXBContext.newInstance(PersonaListWrapper.class);
+			Marshaller escritor = contextoXml.createMarshaller();
+			escritor.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+			PersonaListWrapper personasXml = new PersonaListWrapper();
+			personasXml.setPersonas(personas);
+
+			escritor.marshal(personasXml, libreta);
+
+			setFicheroLibreta(libreta);
+
+		} catch (Exception e) {
+			log.error("Error general", e);
+			Alert alerta = new Alert(Alert.AlertType.ERROR);
+			alerta.setContentText("No se ha podido guardar la libreta:\n" + e.getLocalizedMessage() );
+			alerta.showAndWait();
+		}
 	}
 }
