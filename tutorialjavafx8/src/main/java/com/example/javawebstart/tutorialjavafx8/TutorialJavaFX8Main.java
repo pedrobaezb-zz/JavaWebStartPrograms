@@ -196,4 +196,24 @@ public class TutorialJavaFX8Main extends Application {
 			alerta.showAndWait();
 		}
 	}
+
+	public void mostrarEstadisticasNacimiento () {
+		try {
+			FXMLLoader cargador = new FXMLLoader();
+			cargador.setLocation(getClass().getResource("/com/example/javawebstart/tutorialjavafx8/vista/EstadisticasNacimiento.fxml"));
+			AnchorPane vistaEstadisticas = (AnchorPane) cargador.load();
+			Stage dialogoEstadisticas = new Stage();
+			dialogoEstadisticas.setTitle("Estadisticas de nacimiento");
+			dialogoEstadisticas.initModality(Modality.WINDOW_MODAL);
+			dialogoEstadisticas.initOwner(ventanaPrincipal);
+			dialogoEstadisticas.setScene(new Scene(vistaEstadisticas));
+
+			EstadisticasNacimientoControlador controlador = cargador.getController();
+			controlador.poblarGrafica(personas);
+
+			dialogoEstadisticas.show();
+		} catch (Exception e) {
+			log.error("Error general", e);
+		}
+	}
 }

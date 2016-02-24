@@ -18,6 +18,11 @@
               <MenuItem mnemonicParsing="false" onAction="#salir" text="Exit" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Statistics">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#mostrarEstadisticasPersonas" text="Show Statistics" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="About" />

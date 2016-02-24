@@ -81,6 +81,10 @@ public class ControladorInicial {
         alerta.showAndWait();
     }
 
+    @FXML
+    private void mostrarEstadisticasPersonas() {
+        tutorialJavaFX8Main.mostrarEstadisticasNacimiento();
+    }
 
     public TutorialJavaFX8Main getTutorialJavaFX8Main() {
         return tutorialJavaFX8Main;
