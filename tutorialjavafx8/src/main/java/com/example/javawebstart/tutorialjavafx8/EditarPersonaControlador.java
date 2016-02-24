@@ -35,7 +35,6 @@ public class EditarPersonaControlador {
 
     @FXML
     private void initialize() {
-        log.info("Iniciamos el dialogo");
     }
 
     public void setVentanaDialogo(Stage ventanaDialogo) {
