@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -27,6 +28,7 @@ public class TutorialJavaFX8Main extends Application {
 	public void start(Stage ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 		this.ventanaPrincipal.setTitle("Tutorial Java FX 8");
+		this.ventanaPrincipal.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/Death Note.png")));
 
 		// Añadimos datos de prueba
 		personas.add(new Persona("Hans", "Muster"));
