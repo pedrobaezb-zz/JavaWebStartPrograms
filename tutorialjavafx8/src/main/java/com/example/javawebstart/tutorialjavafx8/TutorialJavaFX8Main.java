@@ -3,8 +3,15 @@ package com.example.javawebstart.tutorialjavafx8;
 import com.example.javawebstart.tutorialjavafx8.modelo.Persona;
 import com.example.javawebstart.tutorialjavafx8.modelo.PersonaListWrapper;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.application.Preloader;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -27,6 +34,7 @@ public class TutorialJavaFX8Main extends Application {
 	private Stage ventanaPrincipal;
 	private BorderPane layoutRaiz;
 	private ObservableList<Persona> personas = FXCollections.observableArrayList();
+	BooleanProperty ready = new SimpleBooleanProperty(false);
 
 	public static void main(String[] args) {
 		launch(args);
@@ -34,8 +42,9 @@ public class TutorialJavaFX8Main extends Application {
 
 	@Override
 	public void start(Stage ventanaPrincipal) {
+		longStart();
 		this.ventanaPrincipal = ventanaPrincipal;
-		this.ventanaPrincipal.setTitle("Tutorial Java FX 8");
+		this.ventanaPrincipal.setTitle("Tutorial Java FX 8 PRUEBA 1");
 		this.ventanaPrincipal.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/Death Note.png")));
 
 		// Añadimos datos de prueba
@@ -69,7 +78,19 @@ public class TutorialJavaFX8Main extends Application {
 			ControladorInicial controladorInicial = cargadorFxml.getController();
 			controladorInicial.setTutorialJavaFX8Main(this);
 
-			ventanaPrincipal.show();
+			// After the app is ready, show the stage
+			ready.addListener(new ChangeListener<Boolean>(){
+				public void changed(
+						ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) {
+					if (Boolean.TRUE.equals(t1)) {
+						Platform.runLater(new Runnable() {
+							public void run() {
+								ventanaPrincipal.show();
+							}
+						});
+					}
+				}
+			});;
 
 			File ultimaLibreta = getFicheroLibreta();
 			if(ultimaLibreta!=null)
@@ -215,5 +236,31 @@ public class TutorialJavaFX8Main extends Application {
 		} catch (Exception e) {
 			log.error("Error general", e);
 		}
+	}
+
+	private void longStart() {
+		//simulate long init in background
+		Task task = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				int max = 10;
+				for (int i = 1; i <= max; i++) {
+					log.info("Cargando... {}", i);
+					Thread.sleep(500);
+					// Send progress to preloader
+					notifyPreloader(new Preloader.ProgressNotification(((double) i)/max));
+				}
+				// After init is ready, the app is ready to be shown
+				// Do this before hiding the preloader stage to prevent the
+				// app from exiting prematurely
+				ready.setValue(Boolean.TRUE);
+
+				notifyPreloader(new Preloader.StateChangeNotification(
+						Preloader.StateChangeNotification.Type.BEFORE_START));
+
+				return null;
+			}
+		};
+		new Thread(task).start();
 	}
 }

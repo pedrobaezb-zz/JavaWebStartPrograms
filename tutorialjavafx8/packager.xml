@@ -1,0 +1,56 @@
+<project name="JavaFXPackager" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+	<!--
+	javapackager -deploy -native -outdir target -outfile tutorialnative -srcdir target
+	-srcfiles tutorialjavafx8.jar -appclass com.example.javawebstart.tutorialjavafx8.TutorialJavaFX8Main
+	-name "TutorialFx8" -title "Tutorial Java Fx 8"
+	-->
+
+	<property name="jdkbase" value="C:/Users/x163209/java_desarrollo/jdk8"/>
+
+	<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+		uri="javafx:com.sun.javafx.tools.ant"
+		classpath="${jdkbase}/lib/ant-javafx.jar"/>
+
+	<target name="default">
+
+	
+		<fx:deploy width="640" height="480" nativeBundles="exe"
+			outdir="target/dist"
+			outfile="TutorialJavaFXApp">
+			
+			<fx:info title="Tutorial Java FX Application" vendor="Allfunds Bank"/>
+
+			<fx:application
+				name="TutorialJavaFX"
+				preloaderClass="com.example.javawebstart.tutorialjavafx8.CargadorTutorialJavaFX8Main" />
+				<!--mainClass="com.example.javawebstart.tutorialjavafx8.TutorialJavaFX8Main" /-->
+				
+				<fx:platform basedir="${jdkbase}" j2se="1.8.0_66+"/>
+				
+				<fx:preferences shortcut="false" menu="false" install="false" />
+
+				<fx:resources>
+				
+				<fx:fileset requiredFor="preloader" dir="cargador/target/">
+					<include name="cargador.jar"/>
+				</fx:fileset>
+				
+				<fx:fileset dir="target">
+					<include name="tutorialjavafx8.jar"/>
+				</fx:fileset>
+			</fx:resources>
+
+
+		</fx:deploy>			
+		
+		<!--
+		<fx:signjar keyStore="${basedir}/sample.jks" destdir="dist"
+			alias="javafx" storePass="****" keyPass="****">
+			
+			<fileset dir='dist/*.jar'/>
+		</fx:signjar>
+		-->		
+	  
+	</target>
+</project>
