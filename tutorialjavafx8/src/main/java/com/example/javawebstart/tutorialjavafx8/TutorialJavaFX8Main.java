@@ -42,7 +42,6 @@ public class TutorialJavaFX8Main extends Application {
 
 	@Override
 	public void start(Stage ventanaPrincipal) {
-		longStart();
 		this.ventanaPrincipal = ventanaPrincipal;
 		this.ventanaPrincipal.setTitle("Tutorial Java FX 8 PRUEBA 1");
 		this.ventanaPrincipal.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/Death Note.png")));
@@ -238,7 +237,8 @@ public class TutorialJavaFX8Main extends Application {
 		}
 	}
 
-	private void longStart() {
+	@Override
+	public void init() throws Exception {
 		//simulate long init in background
 		Task task = new Task<Void>() {
 			@Override
